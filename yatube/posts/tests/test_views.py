@@ -176,19 +176,22 @@ class PostsViewsTests(TestCase):
 
     def test_cache_index(self):
         """Проверка хранения и очищения кэша для index."""
-        response = self.authorized_client.get(reverse('posts:index'))
-        posts = response.content
         Post.objects.create(
             text='Пост для теста кэша',
             author=self.author,
         )
+        cache.clear()
+        response = self.authorized_client.get(reverse('posts:index'))
+        posts_list = response.content
+        post = Post.objects.get(text='Пост для теста кэша')
+        post.delete()
         response_old = self.authorized_client.get(reverse('posts:index'))
-        old_posts = response_old.content
-        self.assertEqual(old_posts, posts)
+        old_posts_list = response_old.content
+        self.assertEqual(old_posts_list, posts_list)
         cache.clear()
         response_new = self.authorized_client.get(reverse('posts:index'))
-        new_posts = response_new.content
-        self.assertNotEqual(old_posts, new_posts)
+        new_posts_list = response_new.content
+        self.assertNotEqual(old_posts_list, new_posts_list)
 
 
 class PaginatorViewsTest(TestCase):
@@ -280,7 +283,7 @@ class FollowTests(TestCase):
                                               kwargs={'username':
                                                       self.user_following.
                                                       username}))
-        self.assertEqual(Follow.objects.all().count(), 1)
+        self.assertEqual(Follow.objects.count(), 1)
 
     def test_unfollow(self):
         self.client_auth_follower.get(reverse('posts:profile_follow',
@@ -291,7 +294,7 @@ class FollowTests(TestCase):
                                       kwargs={'username':
                                               self.user_following.username}))
         cache.clear()
-        self.assertEqual(Follow.objects.all().count(), 0)
+        self.assertEqual(Follow.objects.count(), 0)
 
     def test_subscription_feed(self):
         """запись появляется в ленте подписчиков"""
@@ -304,6 +307,8 @@ class FollowTests(TestCase):
         post_text_0 = response.context["page_obj"][0].text
         self.assertEqual(post_text_0, 'Тестовая запись для тестирования ленты')
         cache.clear()
-        response = self.client_auth_following.get('/follow/')
+        response = self.client_auth_following.get(
+            reverse('posts:follow_index')
+        )
         self.assertNotContains(response,
                                'Тестовая запись для тестирования ленты')

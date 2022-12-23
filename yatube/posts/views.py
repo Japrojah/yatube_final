@@ -7,7 +7,9 @@ from django.urls import reverse
 
 
 def index(request):
-    """Вызывает шаблон главной страницы сайта."""
+    """Вызывает шаблон главной страницы сайта.
+    Кеширование выполнено способом - 
+    в коде шаблона."""
     post_list = Post.objects.all()
 
     page_obj = utils.make_paginator(
@@ -120,7 +122,7 @@ def post_edit(request, post_id):
 @login_required
 def add_comment(request, post_id):
     form = CommentForm(request.POST or None)
-    post = Post.objects.get(id=post_id)
+    post = get_object_or_404(Post, pk=post_id)
     if form.is_valid():
         comment = form.save(commit=False)
         comment.post = post
