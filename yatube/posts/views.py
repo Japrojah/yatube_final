@@ -8,7 +8,7 @@ from django.urls import reverse
 
 def index(request):
     """Вызывает шаблон главной страницы сайта.
-    Кеширование выполнено способом - 
+    Кеширование выполнено способом -
     в коде шаблона."""
     post_list = Post.objects.all()
 
