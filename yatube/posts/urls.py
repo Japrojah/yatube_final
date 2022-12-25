@@ -25,3 +25,10 @@ urlpatterns = [
         name='profile_unfollow'
     ),
 ]
+
+
+"""Добавить в гитигнор это
+# папки со статикой и медиа
+static/
+yatube/posts/static/
+yatube/media/"""
