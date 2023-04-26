@@ -1,3 +1,52 @@
-# hw05_final
+# yatube_final
 
-[![CI](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml/badge.svg?branch=master)](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml)
+Проект социальной сети.
+
+Описание проекта
+---------- 
+Электронный ресурс с реализованной механикой социальной сети.
+Реализованы: разграничения уровней пользователей, создание постов(текстовых/с картинкой) для зарегестрированных пользователей,
+Система комментариев к постам, тематические группы, к которым могут принадлежать посты разных авторов,
+Настроена пагинация, а так же личная лента для каждого (зарегестрированного) пользователя по подпискам на авторов.
+
+# Используемые технологии:
+
+'Python 3.9'
+'Django 2.2.16'
+`Фильтрация реализована с помощью django-filter 2.4.0`
+
+# Как запустить проект: 
+
+### Клонировать репозиторий c сайта GitHub.com: 
+
+`git clone git@github.com:Japrojah/yatube_final.git`\ 
+
+### Перейти в репозиторий проекта на рабочем месте:  
+
+`cd yatube_final` 
+
+### Cоздать и активировать виртуальное окружение:  
+
+`python -m venv venv`\  
+
+### Для Windows:  
+
+`source venv/Scripts/activate`  
+
+### Для Linux & macOS  
+
+`source venv/bin/activate`  
+
+### Установить зависимости из файла requirements.txt:   
+
+`python -m pip install --upgrade pip`\  
+
+`pip install -r requirements.txt`  
+
+### Выполнить миграции:  
+
+`python manage.py migrate` 
+
+### Запустить проект:  
+
+`python manage.py runserver` 
